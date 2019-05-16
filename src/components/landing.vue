@@ -12,7 +12,7 @@
       <span v-else-if="this.dur.final.asSeconds() + this.divisiontime.final[1] > 0" style="color:red;">总决赛进行中<br></span>
     </div> -->
     <div id="footer">
-      <span>恭喜华南虎卫冕成功<br></span>
+      <span>2018老版存档啦<br></span>
     </div>
   </main>
 </template>

@@ -11,6 +11,25 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
+      '/djiapi': {
+        target: 'https://www.robomaster.com/api/games',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/djiapi': ''
+        }
+      },
+      '/history': {
+        target: 'https://robomasters.dog',
+        changeOrigin: true
+      },
+      '/chartdata.json': {
+        target: 'https://robomasters.dog',
+        changeOrigin: true
+      },
+      '/skypixel.json': {
+        target: 'https://robomasters.dog',
+        changeOrigin: true
+      }
     },
 
     // Various Dev Server settings
@@ -51,7 +70,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

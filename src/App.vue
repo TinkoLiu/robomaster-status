@@ -5,7 +5,7 @@
       <b-navbar-brand to="/" exact>RoboMasters.dog</b-navbar-brand>
       <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav>
-          <b-nav-item to="/current">现场状态</b-nav-item>
+          <!-- <b-nav-item to="/current">现场状态</b-nav-item> -->
           <b-nav-item to="/grouprank">小组积分</b-nav-item>
           <b-nav-item to="/allgames">所有场次</b-nav-item>
           <b-nav-item to="/about">关于</b-nav-item>
@@ -122,10 +122,10 @@
         :hide-footer="true"
       >
         <b-container>
-          <b-row>
+          <!-- <b-row>
             <b-button class="w-100" variant="outline-success" @click="appMode.type='live';datasourcemodalShow=false">现场实况</b-button>
           </b-row>
-          <br>
+          <br> -->
           <div style="text-align: center;">以下为可选历史数据</div>
           <b-row v-for="(val, key) in appMode.history" :key="key" class="datasource-btn-row">
             <b-button-group style="display: contents;">
@@ -347,10 +347,10 @@ export default {
         ))
     },
     getCurGames: function () {
-      axios.get('https://bird.ioliu.cn/v1?url=https://robomaster.com/api/games/current_and_next_matches')
-        .then(response => (
-          this.djiData.cur_and_next = response.data
-        ))
+      axios.get('https://bird.ioliu.cn/v1?url=https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com/live_json/current_and_next_matches.json')
+        .then(response => {
+          this.djiData.cur_and_next = response.data.data.currentAndNextMatches
+        })
     },
     getGroupScore: function () {
       axios.get('https://bird.ioliu.cn/v1?url=https://robomaster.com/api/games/groups_order')
@@ -361,9 +361,9 @@ export default {
     },
     updateAPI: function () {
       if (this.appMode.type === 'live') {
-        this.getAllGames()
+        // this.getAllGames()
         this.getCurGames()
-        this.getGroupScore()
+        // this.getGroupScore()
       }
     },
     showModal: function () {
@@ -547,7 +547,6 @@ export default {
       }
     },
     connectTextLive: function () {
-      // ID, key and channel id were found in official website
       this.leancloud.realtime = new Realtime({
         appId: '2Jq7vt0Dowjtfcdyq12yQYrD-gzGzoHsz',
         appKey: '5b306ea9ffd1eb4d5647336e'
@@ -581,6 +580,7 @@ export default {
     }
   },
   mounted: function () {
+    this.appMode.type = '2018,final'
     this.getTeamsDetail()
     this.getReplayData()
     this.updateAPI()
@@ -588,7 +588,6 @@ export default {
     // this.intervalID = setInterval(() => {
     //   this.updateAPI()
     // }, 1000 * 30)
-    this.appMode.type = '2018,final'
   },
   watch: {
     appMode: {

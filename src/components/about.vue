@@ -29,7 +29,7 @@
       <br>
       <h5>大佬们</h5>
       <div>
-        莫神<br>
+        <span style="border: solid;border-width: 1px;">莫神</span><br>
         黄桃<br>
         三金<br>
         老唐<br>
