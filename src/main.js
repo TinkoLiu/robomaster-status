@@ -8,12 +8,18 @@ import VueAnalytics from 'vue-analytics'
 import Vuesax from 'vuesax'
 import 'vuesax/dist/vuesax.css'
 import 'material-icons/iconfont/material-icons.css'
+import ECharts from 'vue-echarts'
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/dataZoom'
+import 'echarts/lib/component/tooltip'
+import 'echarts/lib/component/legend'
 
 Vue.use(Vuesax)
 Vue.use(VueAnalytics, {
   id: 'UA-71933693-4',
   router
 })
+Vue.component('v-chart', ECharts)
 
 Vue.prototype.$axios = axios
 Vue.prototype.$moment = moment
