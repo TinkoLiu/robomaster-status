@@ -21,6 +21,9 @@
       <vs-navbar-item index="schedule">
         <router-link to="schedule">所有场次</router-link>
       </vs-navbar-item>
+      <vs-navbar-item index="vote">
+        <router-link to="vote">投票统计</router-link>
+      </vs-navbar-item>
       <vs-navbar-item index="about">
         <router-link to="about">关于</router-link>
       </vs-navbar-item>
@@ -80,6 +83,12 @@ export default {
           })
           this.$store.commit('updateSchedule', _t)
         })
+      if (this.$store.getters.voteNeedUpdate) {
+        this.$axios.get('/vote.json?_t=' + parseInt(Date.now().toString()))
+          .then(response => {
+            this.$store.commit('updateVote', response.data)
+          })
+      }
     }
   },
   mounted () {

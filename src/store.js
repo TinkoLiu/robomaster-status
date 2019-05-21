@@ -8,7 +8,11 @@ export default new Vuex.Store({
     djiData: {
       current_and_next: null,
       schedule: null,
-      groups_order: null
+      groups_order: null,
+      vote: {
+        lastUpdate: 0,
+        option: null
+      }
     },
     config: {
       zone: 1
@@ -23,6 +27,10 @@ export default new Vuex.Store({
     },
     updateGroupsOrder (state, payload) {
       state.djiData.groups_order = payload
+    },
+    updateVote (state, payload) {
+      state.djiData.vote.option = payload
+      state.djiData.vote.lastUpdate = parseInt(Date.now() / 1000)
     }
   },
   actions: {
@@ -34,6 +42,13 @@ export default new Vuex.Store({
         return state.djiData.groups_order[state.config.zone].groups.nodes
       }
       return null
+    },
+    voteNeedUpdate: state => {
+      let _now = Date.now() / 1000
+      if (_now - state.djiData.vote.lastUpdate > 1800) {
+        return true
+      }
+      return false
     }
   }
 })

@@ -4,6 +4,8 @@ import Router from 'vue-router'
 import Current from './views/Current.vue'
 import GroupOrder from './views/GroupOrder.vue'
 import Schedule from './views/Schedule.vue'
+import Vote from './views/Vote.vue'
+import About from './views/About.vue'
 
 Vue.use(Router)
 
@@ -25,12 +27,14 @@ export default new Router({
       component: Schedule
     },
     {
+      path: '/vote',
+      name: 'vote',
+      component: Vote
+    },
+    {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      component: About
     }
   ]
 })
