@@ -12,7 +12,8 @@ export default new Vuex.Store({
       vote: {
         lastUpdate: 0,
         option: null
-      }
+      },
+      zones: null
     },
     config: {
       zone: 1
@@ -28,9 +29,15 @@ export default new Vuex.Store({
     updateGroupsOrder (state, payload) {
       state.djiData.groups_order = payload
     },
+    updateZones (state, payload) {
+      state.djiData.zones = payload
+    },
     updateVote (state, payload) {
       state.djiData.vote.option = payload
       state.djiData.vote.lastUpdate = parseInt(Date.now() / 1000)
+    },
+    changeZone (state, payload) {
+      state.config.zone = payload
     }
   },
   actions: {
