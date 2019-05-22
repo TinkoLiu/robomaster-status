@@ -27,9 +27,6 @@
       <vs-navbar-item index="about">
         <router-link to="about">关于</router-link>
       </vs-navbar-item>
-      <vs-navbar-item>
-        <a href="/2018">2018赛季历史数据</a>
-      </vs-navbar-item>
       <vs-button color="#FFFFFF" type="float" disabled>当前数据源：{{stage}}</vs-button>
       <vs-button color="#FFFFFF" type="line" @click="zonePrompt = true">选择数据源</vs-button>
       <vs-prompt
@@ -39,12 +36,20 @@
         >
          <div class="con-exemple-prompt" v-if="zones !== null">
            <vs-button
-            style="width:100%;margin-top:5px;"
+            style="width:100%;margin-bottom:5px;"
             v-for="(el, index) in zones"
             v-bind:key="index"
             @click="trigZoneChange(index)"
             >
             {{el}}
+          </vs-button>
+           <vs-button
+            style="width:100%;margin-top:15px;"
+            href="/2018"
+            color="primary"
+            type="border"
+            >
+            2018赛季历史数据
           </vs-button>
          </div>
        </vs-prompt>
