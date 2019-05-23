@@ -38,14 +38,14 @@ export default {
     teamInfo () {
       return {
         'red': {
-          'college': (this.data.redSide.player ? this.data.redSide.player.team.collegeName : 'TBD'),
-          'team': (this.data.redSide.player ? this.data.redSide.player.team.name : 'TBD'),
+          'college': ((this.data.redSide.player && this.data.redSide.player.team) ? this.data.redSide.player.team.collegeName : 'TBD'),
+          'team': ((this.data.redSide.player && this.data.redSide.player.team) ? this.data.redSide.player.team.name : 'TBD'),
           'score': this.data.redSideWinGameCount,
           'status': this.prepareStatus(this.data.redSide.preparedStatus)
         },
         'blue': {
-          'college': (this.data.blueSide.player ? this.data.blueSide.player.team.collegeName : 'TBD'),
-          'team': (this.data.blueSide.player ? this.data.blueSide.player.team.name : 'TBD'),
+          'college': ((this.data.blueSide.player && this.data.blueSide.player.team) ? this.data.blueSide.player.team.collegeName : 'TBD'),
+          'team': ((this.data.blueSide.player && this.data.blueSide.player.team) ? this.data.blueSide.player.team.name : 'TBD'),
           'score': this.data.blueSideWinGameCount,
           'status': this.prepareStatus(this.data.blueSide.preparedStatus)
         }
