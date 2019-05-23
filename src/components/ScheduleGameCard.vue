@@ -6,9 +6,9 @@
     <div class="matchType">{{matchType}}</div>
     <div class="score">{{teamInfo.red.score}}</div>
     <div class="score blue">{{teamInfo.blue.score}}</div>
-    <div class="teamstatus">{{teamInfo.red.status}}</div>
+    <div class="teamstatus">{{teamInfo.red.status}} {{teamInfo.red.lastUpdate}}</div>
     <div class="startTime">预计开始时间<span class="autowrap"></span>{{startTime}}</div>
-    <div class="teamstatus blue">{{teamInfo.blue.status}}</div>
+    <div class="teamstatus blue">{{teamInfo.blue.status}} {{teamInfo.blue.lastUpdate}}</div>
     <div class="college blue">{{teamInfo.blue.college}}</div>
     <div class="team blue">{{teamInfo.blue.team}}</div>
     <br>
@@ -29,8 +29,11 @@ export default {
         case 'ASSEMBLING_DONE':
           return '检录完成'
 
-        case 'WAITING_FIELD_ING':
+        case 'TO_WAITING_FIELD':
           return '发往候场'
+
+        case 'WAITING_FIELD_ING':
+          return '候场确认中'
 
         case 'WAITING_FIELD_READY':
           return '候场就绪'
@@ -47,13 +50,15 @@ export default {
           'college': ((this.data.redSide.player && this.data.redSide.player.team) ? this.data.redSide.player.team.collegeName : 'TBD'),
           'team': ((this.data.redSide.player && this.data.redSide.player.team) ? this.data.redSide.player.team.name : 'TBD'),
           'score': this.data.redSideWinGameCount,
-          'status': this.prepareStatus(this.data.redSide.preparedStatus)
+          'status': this.prepareStatus(this.data.redSide.preparedStatus.toUpperCase()),
+          'lastUpdate': (this.data.redSide.preparedStatus.toUpperCase() === 'INITIAL' ? '' : this.$moment(this.data.redSide.updatedAt).format('HH:mm:ss'))
         },
         'blue': {
           'college': ((this.data.blueSide.player && this.data.blueSide.player.team) ? this.data.blueSide.player.team.collegeName : 'TBD'),
           'team': ((this.data.blueSide.player && this.data.blueSide.player.team) ? this.data.blueSide.player.team.name : 'TBD'),
           'score': this.data.blueSideWinGameCount,
-          'status': this.prepareStatus(this.data.blueSide.preparedStatus)
+          'status': this.prepareStatus(this.data.blueSide.preparedStatus.toUpperCase()),
+          'lastUpdate': (this.data.blueSide.preparedStatus.toUpperCase() === 'INITIAL' ? '' : this.$moment(this.data.blueSide.updatedAt).format('HH:mm:ss'))
         }
       }
     },
