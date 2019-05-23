@@ -106,10 +106,7 @@ export default {
           let _t = {}
           response.data.data.event.zones.nodes.forEach(element => {
             element.groupMatches.nodes.sort((a, b) => {
-              return a.id - b.id
-            })
-            element.knockoutMatches.nodes.sort((a, b) => {
-              return a.id - b.id
+              return a.orderNumber - b.orderNumber
             })
             _t[element.id] = element
           })
