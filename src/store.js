@@ -16,7 +16,7 @@ export default new Vuex.Store({
       zones: null
     },
     config: {
-      zone: 1
+      zone: 2
     }
   },
   mutations: {
@@ -47,6 +47,12 @@ export default new Vuex.Store({
     groupsOrder: state => {
       if (state.djiData.groups_order) {
         return state.djiData.groups_order[state.config.zone].groups.nodes
+      }
+      return null
+    },
+    schedule: state => {
+      if (state.djiData.schedule) {
+        return state.djiData.schedule[state.config.zone]
       }
       return null
     },
