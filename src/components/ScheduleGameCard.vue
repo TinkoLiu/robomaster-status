@@ -29,6 +29,12 @@ export default {
         case 'ASSEMBLING_DONE':
           return '检录完成'
 
+        case 'WAITING_FIELD_ING':
+          return '发往候场'
+
+        case 'WAITING_FIELD_READY':
+          return '候场就绪'
+
         default:
           return '未知状态'
       }
