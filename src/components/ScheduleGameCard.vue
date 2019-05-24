@@ -6,9 +6,9 @@
     <div class="matchType">{{matchType}}</div>
     <div class="score">{{teamInfo.red.score}}</div>
     <div class="score blue">{{teamInfo.blue.score}}</div>
-    <div class="teamstatus">{{teamInfo.red.status}} {{teamInfo.red.lastUpdate}}</div>
+    <div class="teamstatus">{{teamInfo.red.status}}</div>
     <div class="startTime">预计开始时间<span class="autowrap"></span>{{startTime}}</div>
-    <div class="teamstatus blue">{{teamInfo.blue.status}} {{teamInfo.blue.lastUpdate}}</div>
+    <div class="teamstatus blue">{{teamInfo.blue.status}}</div>
     <div class="college blue">{{teamInfo.blue.college}}</div>
     <div class="team blue">{{teamInfo.blue.team}}</div>
     <br>
@@ -18,29 +18,70 @@
 export default {
   props: ['data'],
   methods: {
-    prepareStatus (status) {
-      switch (status) {
-        case 'TO_GAME_FIELD':
-          return '发往赛场'
-
-        case 'ASSEMBLING_ING':
-          return '正在检录'
-
-        case 'ASSEMBLING_DONE':
-          return '检录完成'
-
-        case 'TO_WAITING_FIELD':
-          return '发往候场'
-
-        case 'WAITING_FIELD_ING':
-          return '候场确认中'
-
-        case 'WAITING_FIELD_READY':
-          return '候场就绪'
-
-        default:
-          return '未知状态'
+    teamStatus (team) {
+      if (this.data.status.toUpperCase() === 'DONE' && this.data.matchType.toUpperCase() === 'GROUP') {
+        return
       }
+      let _status = ''
+      let _time = ''
+      let _team = {}
+      if (team) {
+        _team = this.data.blueSide
+      } else {
+        _team = this.data.redSide
+      }
+      if (_team.preparedStatus.toUpperCase() !== 'INITIAL' && this.data.status.toUpperCase() !== 'DONE') {
+        _time = this.$moment(_team.updatedAt).format(' HH:mm:ss')
+      }
+      if (this.data.status.toUpperCase() === 'DONE' && (this.data.winnerPlaceholdName && this.data.loserPlaceholdName) != null) {
+        switch (this.data.result.toUpperCase()) {
+          case 'BLUE':
+            if (team) {
+              _status = this.data.winnerPlaceholdName
+            } else {
+              _status = this.data.loserPlaceholdName
+            }
+            break
+
+          case 'RED':
+            if (team) {
+              _status = this.data.loserPlaceholdName
+            } else {
+              _status = this.data.winnerPlaceholdName
+            }
+            break
+        }
+      } else {
+        switch (_team.preparedStatus.toUpperCase()) {
+          case 'TO_GAME_FIELD':
+            _status = '发往赛场'
+            break
+
+          case 'ASSEMBLING_ING':
+            _status = '正在检录'
+            break
+
+          case 'ASSEMBLING_DONE':
+            _status = '检录完成'
+            break
+
+          case 'TO_WAITING_FIELD':
+            _status = '发往候场'
+            break
+
+          case 'WAITING_FIELD_ING':
+            _status = '候场确认中'
+            break
+
+          case 'WAITING_FIELD_READY':
+            _status = '候场就绪'
+            break
+
+          default:
+            _status = '未知状态'
+        }
+      }
+      return _status + _time
     }
   },
   computed: {
@@ -50,14 +91,14 @@ export default {
           'college': ((this.data.redSide.player && this.data.redSide.player.team) ? this.data.redSide.player.team.collegeName : 'TBD'),
           'team': ((this.data.redSide.player && this.data.redSide.player.team) ? this.data.redSide.player.team.name : 'TBD'),
           'score': this.data.redSideWinGameCount,
-          'status': this.prepareStatus(this.data.redSide.preparedStatus.toUpperCase()),
+          'status': this.teamStatus(0),
           'lastUpdate': (this.data.redSide.preparedStatus.toUpperCase() === 'INITIAL' ? '' : this.$moment(this.data.redSide.updatedAt).format('HH:mm:ss'))
         },
         'blue': {
           'college': ((this.data.blueSide.player && this.data.blueSide.player.team) ? this.data.blueSide.player.team.collegeName : 'TBD'),
           'team': ((this.data.blueSide.player && this.data.blueSide.player.team) ? this.data.blueSide.player.team.name : 'TBD'),
           'score': this.data.blueSideWinGameCount,
-          'status': this.prepareStatus(this.data.blueSide.preparedStatus.toUpperCase()),
+          'status': this.teamStatus(1),
           'lastUpdate': (this.data.blueSide.preparedStatus.toUpperCase() === 'INITIAL' ? '' : this.$moment(this.data.blueSide.updatedAt).format('HH:mm:ss'))
         }
       }
@@ -81,6 +122,10 @@ export default {
             _t += ' result-tie'
             break
         }
+      } else if (this.data.loserPlaceholdName === '淘汰') {
+        _t += ' eliminate'
+      } else if (this.data.loserPlaceholdName.startsWith('复')) {
+        _t += ' revive'
       }
       if (this.data.status.toUpperCase() === 'STARTED') {
         _t += ' started'
@@ -109,6 +154,12 @@ export default {
             case '16_18_loser_2':
               return '16进8败者组第二轮'
 
+            case '16_18_loser_3':
+              return '16进8败者组第三轮'
+
+            case '8_4':
+              return '8进4'
+
             case '8_4_winer':
               return '8进4胜者组'
 
@@ -129,6 +180,9 @@ export default {
 
             case 'final':
               return '冠军赛'
+
+            case 'fight_final':
+              return '总决赛名额赛'
 
             default:
               break
@@ -174,6 +228,9 @@ export default {
   border-left: 6px solid rgb(240, 68, 68);
   border-right: 6px solid rgb(68, 206, 240);
   background: #e0e0e0;
+}
+.wrapper * {
+  transition: all 0.25s;
 }
 .wrapper.done {
   background: #ececec;
@@ -242,19 +299,19 @@ export default {
   text-align: center;
 }
 .wrapper.done .teamstatus {
-  color: #fcefee;
+  /* color: #fcefee; */
   background: #fcefee;
 }
 .wrapper.done .teamstatus.blue {
-  color: #e6faff;
+  /* color: #e6faff; */
   background: #e6faff;
 }
 .wrapper.winner-red .teamstatus.blue{
-  color: #ececec;
+  /* color: #ececec; */
   background: #ececec;
 }
 .wrapper.winner-blue .teamstatus:not(.blue){
-  color: #ececec;
+  /* color: #ececec; */
   background: #ececec;
 }
 .score {
@@ -290,6 +347,13 @@ export default {
 }
 .autowrap:before {
   content: "：";
+}
+.wrapper.eliminate .matchType {
+  background: #FF0000;
+  color: #FFFFFF;
+}
+.wrapper.revive .matchType {
+  background: #FFB800;
 }
 @media only screen and (max-width: 700px) {
   .outer {
