@@ -16,7 +16,7 @@ export default new Vuex.Store({
       zones: null
     },
     config: {
-      zone: 2
+      zone: 3
     }
   },
   mutations: {

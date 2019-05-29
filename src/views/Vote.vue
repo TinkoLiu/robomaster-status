@@ -1,7 +1,7 @@
 <template>
   <div class="vote" v-if="chartOption">
-    <span>官网投票走势图，每半小时更新一次</span><br>
-    <span>仅统计票数最高的 7 支战队过去 6 小时数据</span><br>
+    <span>官网投票走势图，受xx影响，暂时手动更新</span><br>
+    <span>仅统计票数最高的 7 支战队数据</span><br>
     <v-chart :options="chartOption"/>
   </div>
 </template>
