@@ -133,12 +133,15 @@ export default {
       if (this.data.status.toUpperCase() === 'DONE') {
         _t += ' done'
       }
+      if (this.data.status.toUpperCase() === 'PENDING') {
+        _t += ' pending'
+      }
       return _t
     },
     matchType () {
       switch (this.data.matchType.toUpperCase()) {
         case 'GROUP':
-          return '小组赛'
+          return '小组赛 ' + this.data.blueSide.player.name.split('-')[0] + '组'
 
         case 'KNOCKOUT':
           switch (this.data.slug) {
@@ -218,6 +221,17 @@ export default {
 }
 </script>
 <style scoped>
+@keyframes pendingAnim {
+  from {
+    border-left: 6px solid rgb(240, 68, 68);
+    border-right: 6px solid rgb(68, 206, 240);
+  }
+
+  to {
+    border-left: 6px solid #fcefee;
+    border-right: 6px solid #e6faff;
+  }
+}
 .wrapper {
   word-wrap: break-word;
   margin-top: 15px;
@@ -231,6 +245,12 @@ export default {
 }
 .wrapper * {
   transition: all 0.25s;
+}
+.wrapper.pending {
+  animation-name: pendingAnim;
+  animation-duration: 0.75s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 .wrapper.done {
   background: #ececec;
