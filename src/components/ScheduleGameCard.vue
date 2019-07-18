@@ -124,7 +124,7 @@ export default {
         }
       } else if (this.data.loserPlaceholdName === '淘汰') {
         _t += ' eliminate'
-      } else if (this.data.loserPlaceholdName.startsWith('复')) {
+      } else if (this.data.loserPlaceholdName && this.data.loserPlaceholdName.startsWith('复')) {
         _t += ' revive'
       }
       if (this.data.status.toUpperCase() === 'STARTED') {
@@ -141,7 +141,7 @@ export default {
     matchType () {
       switch (this.data.matchType.toUpperCase()) {
         case 'GROUP':
-          return '小组赛 ' + this.data.blueSide.player.name.split('-')[0] + '组'
+          return '小组赛' + (this.data.blueSide.player ? ' ' + this.data.blueSide.player.name.split('-')[0] + '组' : '')
 
         case 'KNOCKOUT':
           switch (this.data.slug) {

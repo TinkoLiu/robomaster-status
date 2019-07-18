@@ -34,8 +34,8 @@
             {{tr.name.split('-').join('')}}
           </vs-td>
 
-          <vs-td width="100px" :data="tr.team.collegeName + tr.team.name">
-            {{tr.team.collegeName }}<br>{{ tr.team.name}}
+          <vs-td width="100px" :data="tr.team ? tr.team.collegeName + tr.team.name : 'TBD'">
+            {{tr.team ? tr.team.collegeName : 'TBD' }}<br>{{ tr.team ? tr.team.name : ''}}
           </vs-td>
 
           <vs-td :data="tr.winGroupMatchCount + '/' + tr.drawGroupMatchCount + '/' + tr.loseGroupMatchCount">
